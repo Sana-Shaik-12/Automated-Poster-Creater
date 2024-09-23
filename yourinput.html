@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industry-Supported Capstone</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            font-size: 1.03em;
+            line-height: 1.155;
+            height: 100vh; /* Ensure body takes full viewport height */
+        }
+        .container {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            height: 100%;
+            max-width: 210mm; /* A4 width */
+            max-height: 297mm; /* A4 height */
+            margin: 0 auto; /* Center the container */
+            border: none; /* Ensure no border on the container */
+            box-sizing: border-box;
+        }
+        .left-column {
+            background: {{ left_column_background | default('linear-gradient(to bottom, #001f3f, #003366)') }};
+            color: white;
+            padding: 20px;
+            width: 50%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            border: none; /* Ensure no border on the left column */
+            height: 100%; /* Ensure left column takes full height */
+        }
+        .right-column {
+            width: 50%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            border: none; /* Ensure no border on the right column */
+            height: 100%; /* Ensure right column takes full height */
+        }
+        .title {
+            text-align: left;
+            font-size: 3.1em; /* Adjusted font size */
+            color: white;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+        .highlight {
+            color: #FFFFFF;
+        }
+        .blue-underline {
+            color: rgb(62, 185, 212);
+            text-decoration: underline;
+        }
+        h2 {
+            font-size: 1.8em; /* Adjusted font size */
+            color: #FFD700; /* Gold color */
+			text-decoration: none; /* Removes underline */
+        }
+        h3 {
+            font-size: 1.3em; /* Adjusted font size */
+			color: #FFD700; /* Gold color */
+			text-decoration: none; /* Removes underline */
+        }
+        p {
+            font-size: 1.1em; /* Adjusted font size */
+        }
+        ul {
+            font-size: 1.1em; /* Adjusted font size */
+        }
+        .top-image {
+            height: 40%;
+            margin: 0; /* Remove any margin */
+            padding: 0; /* Remove any padding */
+        }
+        .top-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensure images cover the entire container */
+            border: none; /* Ensure no border on the image */
+        }
+        .middle-section {
+            background-color: {{ middle_section_background | default('#8564a4') }}; /* Dark lavender background */
+            color: white;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 20px;
+			padding-top: 0px;
+            text-align: left;
+            flex-grow: 1; /* Ensure middle section takes remaining space */
+        }
+        .middle-section h3 {
+            margin-top: 0;
+        }
+        .middle-section ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin: 0;
+        }
+        .middle-section p {
+            margin: 0;
+        }
+        /* styles.css */
+        .right-column .middle-section {
+            padding-top: 1.2px; /* Adjust this value to move the text up */
+        }
+        .bottom-image {
+            height: auto;
+            margin: 0; /* Remove any margin */
+            padding: 0; /* Remove any padding */
+            display: flex;
+            align-items: flex-end; /* Align image to the bottom */
+            justify-content: center;
+            flex-shrink: 0; /* Prevent the image from shrinking */
+        }
+        .bottom-image img {
+            width: 100%;
+            height: auto;
+            max-height: 100%; /* Ensure the image fits within the container */
+            object-fit: contain; /* Ensure images cover the entire container */
+            border: none; /* Ensure no border on the image */
+        }
+        .contact-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .contact {
+            text-align: left;
+            flex: 1;
+        }
+        .contact-image {
+            text-align: right;
+            margin-left: 20px;
+        }
+        .contact-image img {
+            width: 100px;
+            height: auto;
+            border-radius: 0%;
+        }
+        .content h2, .content h3, .content p, .content ul {
+            margin: 0 0 20px 0;
+        }
+        .content ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        @media print {
+            body {
+                background-color: white;
+                margin: 0;
+                padding: 0;
+            }
+            .container {
+                display: flex;
+                flex-direction: row; /* Ensure columns are displayed side by side */
+                max-width: 100%; /* Adjust width as needed */
+                max-height: 100%; /* Adjust height as needed */
+                margin: 0; /* Remove margin */
+            }
+            .left-column, .right-column {
+                width: 50%; /* Adjust width as needed */
+            }
+            .left-column {
+                page-break-inside: avoid; /* Avoid page breaks inside left column */
+            }
+            .right-column {
+                page-break-inside: avoid; /* Avoid page breaks inside right column */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-column">
+            <div class="title">
+                {{ content['Title'] | safe }}
+            </div>
+            <div>
+                <h2>{{ content['Header'] | safe}}</h2>
+                <p>{{ content['Subheader'] | safe}}</p>
+                <h3>Why Partner</h3>
+                <div>{{ content['Why Partner'] | safe }}</div>
+                <div class="contact-container">
+                    <div class="contact">
+                        <h3>Contact</h3>
+                        <p>{{ content['Contact'] | safe }}</p>
+                    </div>
+                    <div class="contact-image">
+                        <img src="{{ content['Contact Image'] }}" alt="Contact Image">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right-column">
+            <div class="top-image">
+                <img src="{{ content['Top Right Image'] }}" alt="Top Right Image">
+            </div>
+            <div class="middle-section">
+                <h3>How to Start Working Together</h3>
+                <div>{{ content['How to Participate'] | safe }}</div>
+                <br>
+                <h3>Additional Information</h3>
+                <div>{{ content['Resources'] | safe }}</div>
+            </div>
+            <div class="bottom-image">
+                <img src="{{ content['Bottom Image'] }}" alt="Johns Hopkins University">
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
